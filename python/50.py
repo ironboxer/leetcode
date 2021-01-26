@@ -16,7 +16,7 @@ Example 3:
 Input: x = 2.00000, n = -2
 Output: 0.25000
 Explanation: 2-2 = 1/22 = 1/4 = 0.25
- 
+
 
 Constraints:
 
@@ -44,6 +44,23 @@ class Solution:
         return res
 
 
+# 跟着思路多走几遍 就明白了
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+
+        if n < 0:
+            return 1 / self.myPow(x, -n)
+
+        r = 1
+        while n:
+            if n & 1:
+                r *= x
+            n >>= 1
+            x *= x
+
+        return r
+
+
 # 你真逗明白了吗?
 # 数值计算这里, 是一个弱项
 
@@ -59,3 +76,4 @@ if __name__ == "__main__":
         r = Solution().myPow(x, n)
         print(x, n, t, r)
         assert abs(t - r) < 0.00001
+

@@ -91,6 +91,24 @@ class Solution:
         return res
 
 
+# 很简单的一道题啊 就是做不对啊
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        intervals.append(newInterval)
+        intervals.sort()
+        res = []
+        for a, b in intervals:
+            if not res:
+                res.append([a, b])
+            else:
+                if a > res[-1][1]:
+                    res.append([a, b])
+                else:
+                    res[-1][1] = max(res[-1][1], b)
+
+        return res
+
+
 if __name__ == '__main__':
     intervals = [[1, 3], [6, 9]]
     newInterval = [2, 5]

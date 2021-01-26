@@ -60,6 +60,56 @@ class Solution:
         return True
 
 
+
+# SLOW BUT WORK
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+
+        def check(board, row, col):
+            n = len(board)
+            # check row
+            # pass
+
+            # check column
+            for i in range(row):
+                if board[i][col] == 'Q':
+                    return False
+
+            # check A
+            i, j = row - 1, col - 1
+            while i >= 0 and j >= 0:
+                if board[i][j] == 'Q':
+                    return False
+                i, j = i - 1, j - 1
+
+            # check B
+            i, j = row - 1, col + 1
+            while i >= 0 and j < n:
+                if board[i][j] == 'Q':
+                    return False
+                i, j = i - 1, j + 1
+
+            return True
+
+        res = []
+        board = [['.'] * n for _ in range(n)]
+
+        def f(row):
+            if row == n:
+                res.append([''.join(row) for row in board])
+                return
+            for col in range(n):
+                board[row][col] = 'Q'
+                if check(board, row, col):
+                    f(row+1)
+                board[row][col] = '.'
+
+        f(0)
+
+        return res
+
+
+
 if __name__ == '__main__':
     for i in range(4, 9):
         boards = Solution().solveNQueens(i)

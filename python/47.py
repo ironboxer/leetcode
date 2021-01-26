@@ -52,3 +52,26 @@ class Solution:
 
         return results
 
+
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        freq = {}
+        for n in nums:
+            freq[n] = freq.get(n, 0) + 1
+
+        def f(buf):
+            if len(buf) == len(nums):
+                res.append(buf[:])
+                return
+            for k, v in freq.items():
+                if v > 0:
+                    freq[k] -= 1
+                    buf.append(k)
+                    f(buf)
+                    buf.pop()
+                    freq[k] += 1
+        f([])
+
+        return res
+

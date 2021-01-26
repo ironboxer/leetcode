@@ -104,6 +104,46 @@ class Solution:
         solve(board)
 
 
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+
+        def check(row, col, val):
+            for i in range(9):
+                if board[row][i] == val:
+                    return False
+            for i in range(9):
+                if board[i][col] == val:
+                    return False
+            buf = []
+            l, r = row // 3, col // 3
+            for i in range(l * 3, (l + 1) * 3):
+                for j in range(r * 3, (r + 1) * 3):
+                    if board[i][j] != '.':
+                        buf.append(board[i][j])
+
+            return len(buf) == len(set(buf))
+
+        def f():
+            for i in range(9):
+                for j in range(9):
+                    if board[i][j] == '.':
+                        for n in range(1, 10):
+                            if check(i, j, str(n)):
+                                board[i][j] = str(n)
+                                if f():
+                                    return True
+                                else:
+                                    board[i][j] = '.'
+                        return False
+
+            # 最后没有.的位置 表示都放对了地方
+            return True
+
+        f()
+
+
+
+
 if __name__ == "__main__":
     board = [
         ["5", "3", ".", ".", "7", ".", ".", ".", "."],
