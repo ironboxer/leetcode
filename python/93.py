@@ -68,3 +68,38 @@ class Solution:
 
         f(s, [])
         return res
+
+
+
+
+# 做1万遍都不会
+def check(s):
+    if not (1 <= len(s) <= 3 and 0 <= int(s) <= 255):
+        return False
+    if len(s) > 1 and s[0] == '0':
+        return False
+    return True
+
+
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = []
+
+        def f(s, buf):
+            if len(buf) == 3:
+                if check(s):
+                    buf.append(s)
+                    res.append('.'.join(buf))
+                    buf.pop()
+                return
+            for i in range(len(s)):
+                if check(s[:i+1]):
+                    buf.append(s[:i+1])
+                    f(s[i+1:], buf)
+                    buf.pop()
+
+        f(s, [])
+
+        return res
+
+

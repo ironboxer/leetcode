@@ -37,5 +37,26 @@ class Solution:
         return G[n]
 
 
+class Solution:
+    nums = [1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440, 9694845, 35357670, 129644790, 477638700, 1767263190]
+
+    def numTrees(self, n: int) -> int:
+        return self.nums[n]
+
+
+
+# 这里有一个简单的公式可以参考
+# 而且比较好记
+class Solution:
+    def numTrees(self, n: int) -> int:
+        if n < 2:
+            return 1
+        r = 1
+        for i in range(2, n+1):
+            r = r * (4 * i - 2) // (i + 1)
+
+        return r
+
+
 if __name__ == '__main__':
     pass

@@ -1,3 +1,2 @@
-# leetcode
-leetcode practice
-leetcode 练习
+### let's leetcode
+

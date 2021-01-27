@@ -104,6 +104,44 @@ class Solution:
         return max_area
 
 
+
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        max_area = 0
+        # 所谓的单调栈 就是维护了一个高度 自增(非严格)的序列
+        # 然后计算这个序列中的最大高度(最右边)和最大宽度(最左边)
+        stack = [-1]
+        heights.append(0)
+        for i, h in enumerate(heights):
+            while h < heights[stack[-1]]:
+                H = heights[stack.pop()]
+                W = i - stack[-1] - 1
+                max_area = max(max_area, W * H)
+            stack.append(i)
+
+        return max_area
+
+
+# 还是下面这个算法更简单
+# 但是两者的思路都是一样的
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        max_area = 0
+        # 所谓的单调栈 就是维护了一个高度 自增(非严格)的序列
+        # 然后计算这个序列中的最大高度(最右边)和最大宽度(最左边)
+        stack = [-1]
+        heights.append(0)
+        for i, h in enumerate(heights):
+            while h < heights[stack[-1]]:
+                H = heights[stack.pop()]
+                W = i - stack[-1] - 1
+                max_area = max(max_area, W * H)
+            stack.append(i)
+
+        return max_area
+
+
 if __name__ == '__main__':
     heights = [2, 1, 5, 6, 2, 3]
     print(Solution().largestRectangleArea(heights))

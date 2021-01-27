@@ -60,3 +60,37 @@ class Solution:
 
         a.val, b.val = b.val, a.val
 
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+
+        def f(root):
+            if root:
+                yield from f(root.left)
+                yield root
+                yield from f(root.right)
+
+        # 最重要的是pre节点的存在
+        # a 用来记录最早的那个节点 b用来记录最晚的那个节点
+        # pre用来记录走过的每一个节点
+        # 没有搞懂 两个节点有错误到底意味着什么
+        pre, a, b = None, None, None
+        for node in f(root):
+            if pre and pre.val > node.val:
+                if not a:
+                    a = pre
+                b = node
+            pre = node
+
+        a.val, b.val = b.val, a.val
+

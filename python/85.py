@@ -104,6 +104,39 @@ class Solution:
 # a better Solution
 
 
+def f(heights):
+    area = 0
+    stack = [-1]
+    heights.append(0)
+    for i, h in enumerate(heights):
+        while stack and h < heights[stack[-1]]:
+            H = heights[stack.pop()]
+            W = i - stack[-1] - 1
+            area = max(area, H * W)
+        stack.append(i)
+
+    return area
+
+
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix:
+            return 0
+        max_area = 0
+        rows, cols = len(matrix), len(matrix[0])
+        heights = [0] * cols
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == '1':
+                    heights[j] += 1
+                else:
+                    heights[j] = 0
+
+            max_area = max(max_area, f(heights[:]))
+
+        return max_area
+
+
 if __name__ == '__main__':
     matrix = [
         ["1", "0", "1", "0", "0"],

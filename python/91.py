@@ -33,9 +33,33 @@ class Solution:
             if e != '0':
                 dp[i + 1] = dp[i]
             if i > 0 and 10 <= int(s[i - 1:i + 1]) <= 26:
+                # 实际上是想要表达 dp[i] = dp[i-2]
                 dp[i + 1] += dp[i - 1]
         # print(dp)
         return dp[n]
+
+
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if s[0] == '0':
+            return 0
+        n = len(s)
+        dp = [0] * n
+        dp[0] = 1
+
+        for i in range(1, n):
+            if 1 <= int(s[i]) <= 9:
+                dp[i] += dp[i-1]
+            if 10 <= int(s[i-1:i+1]) <= 26:
+                # 这是一个补丁
+                # i - 2 < 0
+                if i > 2:
+                    dp[i] += dp[i-2]
+                else:
+                    dp[i] += 1
+
+        # print(dp)
+        return dp[-1]
 
 
 # 你真的明白了吗? 需要列出几个case, 然后总结状态转移方程
