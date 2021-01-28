@@ -53,6 +53,19 @@ class Solution:
         return dp[n-1][0]
 
 
+# A ShortCut Solution
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        min_price = (1 << 31) - 1
+        for i, price in enumerate(prices):
+            if price < min_price:
+                min_price = price
+            else:
+                profit = max(profit, price - min_price)
+        return profit
+
+
 if __name__ == '__main__':
     print(Solution().maxProfit([7, 1, 5, 3, 6, 4]))
     print(Solution().maxProfit([7, 6, 4, 3, 1]))

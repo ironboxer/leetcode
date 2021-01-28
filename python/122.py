@@ -59,7 +59,17 @@ class Solution:
         return dp[n-1][0]
 
 
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        for i, price in enumerate(prices):
+            if i > 0 and price > prices[i-1]:
+                profit += price - prices[i-1]
+        return profit
+
+
 if __name__ == '__main__':
     print(Solution().maxProfit([7, 1, 5, 3, 6, 4]))
     print(Solution().maxProfit([1, 2, 3, 4, 5]))
+
 

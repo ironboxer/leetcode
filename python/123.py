@@ -100,6 +100,34 @@ class Solution:
         return dp[n-1][K][0]
 
 
+# 需要理解公式的定义 然后严格推导得出
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        N, K = len(prices), 2
+        dp = [[[0, 0] for _ in range(K)] for _ in range(N)]
+
+        for i in range(N):
+            for k in range(K):
+                if i == 0:
+                    dp[i][k][0] = 0
+                    # 这个地方需要注意
+                    # 1 表示当前的状态必须为[买入]的状态
+                    # [买入]的状态有两种来历:
+                    # 1. 继承自之前的状态
+                    # 2. 当前就要买入
+                    # 因为 i == 0 表示 在 第一个状态 没有比这个状态更早的了
+                    # 所以想现在的 [买入]状态只能通过买入prices[i]得出
+                    # 所以需要 -prices[i]
+                    dp[i][k][1] = -prices[i]
+                elif k == 0:
+                    dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+                    dp[i][k][1] = max(dp[i-1][k][1], -prices[i])
+                else:
+                    dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+                    dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+        return dp[-1][-1][0]
+
+
 
 if __name__ == '__main__':
     print(Solution().maxProfit([3, 3, 5, 0, 0, 3, 1, 4]))

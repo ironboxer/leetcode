@@ -82,6 +82,37 @@ class Solution:
         return total
 
 
+# 这个不是最好的 但是你自己想出来的
+# 每一步是如何写出来的
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        N, K = len(prices), k
+        if N < 2 or K < 1:
+            return 0
+        if K * 2 >= N:
+            profit = 0
+            for i, price in enumerate(prices):
+                if i > 0 and price > prices[i-1]:
+                    profit += price - prices[i-1]
+            return profit
+
+        dp = [[[0, 0] for _ in range(K)] for _ in range(N)]
+
+        for i in range(N):
+            for k in range(K):
+                if i == 0:
+                    dp[i][k][0] = 0
+                    dp[i][k][1] = -prices[i]
+                elif k == 0:
+                    dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+                    dp[i][k][1] = max(dp[i-1][k][1], -prices[i])
+                else:
+                    dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+                    dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+
+        return dp[-1][-1][0]
+
+
 if __name__ == '__main__':
     print(Solution().maxProfit(2, [2, 4, 1]))
     print(Solution().maxProfit(2, [3, 2, 6, 5, 0, 3]))
