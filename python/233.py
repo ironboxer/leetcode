@@ -34,8 +34,35 @@ class Solution:
         return res
 
 
+class Solution:
+    def countDigitOne(self, n: int) -> int:
+        if n < 1:
+            return 0
+
+        digit = 1
+        high = n // 10
+        cur = n % 10
+        low = 0
+        res = 0
+
+        while high != 0 or cur != 0:
+            if cur == 0:
+                res += high * digit
+            elif cur == 1:
+                res += high * digit + low + 1
+            else:
+                res += (high + 1) * digit
+
+            low += cur * digit
+            cur = high % 10
+            high //= 10
+            digit *= 10
+
+        return res
+
 
 if __name__ == '__main__':
+    # 1 10 11 12 13
     print(Solution().countDigitOne(13))
 
 

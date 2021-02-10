@@ -18,3 +18,30 @@ class Solution:
 
         return seen_once
 
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        A, B = 0, 0
+        for n in nums:
+            C = B & n
+            B = (B & ~n) | (A & n)
+            A = A ^ n
+            A &= ~C
+
+        return A
+
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        A, B = 0, 0
+        for n in nums:
+            A = ~B & (A ^ n)
+            B = ~A & (B ^ n)
+        return A
+
+
+if __name__ == '__main__':
+    nums = [3,3,3,2,2,2,1]
+    print(Solution().singleNumber(nums))
+
+

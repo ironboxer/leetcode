@@ -208,6 +208,41 @@ class Solution:
 
 
 
+from collections import deque
+
+class Solution:
+    def calculate(self, s: str) -> int:
+
+        def f(tokens):
+            stack = []
+            sign = '+'
+            n = 0
+
+            while tokens:
+                c = tokens.popleft()
+                if c == '(':
+                    n = f(tokens)
+                elif c.isdigit():
+                    n = n * 10 + int(c)
+
+                if (not c.isdigit() and c != ' ') or not tokens:
+                    if sign == '+':
+                        stack.append(n)
+                    elif sign == '-':
+                        stack.append(-n)
+                    n = 0
+                    sign = c
+
+                if c == ')':
+                    break
+
+            return sum(stack)
+
+
+        return f(deque(list(s)))
+
+
+
 if __name__ == '__main__':
     print(Solution().calculate('1+2-3+4'), 4)
     print()

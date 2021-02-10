@@ -45,6 +45,9 @@ class Solution:
 class Solution:
     """
     something like sliding window
+    因为一开始就不会 所以根本记不住
+
+    能够记住的前提就是你理解了它 否则 就没啥用了
     """
     def removeDuplicateLetters(self, s: str) -> str:
         from collections import Counter
@@ -64,6 +67,21 @@ class Solution:
             visited.add(c)
 
         return ''.join(stack)
+
+
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        last_indexes = {c: i for i, c in enumerate(s)}
+        stack = []
+        for i, c in enumerate(s):
+            if c in stack:
+                continue
+            while stack and stack[-1] > c and last_indexes[stack[-1]] > i:
+                stack.pop()
+            stack.append(c)
+
+        return ''.join(stack)
+
 
 
 if __name__ == '__main__':

@@ -31,5 +31,16 @@ class Solution:
             res[i] = res[i >> 1] + (i & 1)
         return res
 
+
+
+class Solution:
+    def countBits(self, num: int) -> List[int]:
+        res = [0] * (num + 1)
+        for i in range(1, num + 1):
+            # 简版处理 然后根据奇偶性 + 1
+            res[i] = res[i >> 1] + (i & 1)
+        return res
+
+
 if __name__ == '__main__':
     print(Solution().countBits(10))

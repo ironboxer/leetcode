@@ -67,6 +67,32 @@ class Solution:
         return False
 
 
+
+# 本质上更像是一个长度为K的滑动窗口
+# 然后 通过计算t的倍数来缩小查找的区间范围
+from collections import OrderedDict
+
+
+class Solution:
+    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
+
+        window = OrderedDict()
+        for n in nums:
+            i = n // (t or 1)
+            for e in (i-1, i, i+1):
+                if e in window and abs(window[e] - n) <= t:
+                    return True
+            # 这里实际上是一种压缩 会损失信息吗?
+            # 这里是不会丢失的
+            # 如果相同位置的i已经存在了 那么在上一步的判断的时候就能检查出来 返回True
+            window[i] = n
+            if len(window) > k:
+                window.popitem(last=False)
+
+        return False
+
+
+
 if __name__ == '__main__':
     nums = [1,2,3,1]
     k = 3

@@ -14,3 +14,31 @@ https://leetcode-cn.com/problems/lexicographical-numbers/
 class Solution:
     def lexicalOrder(self, n: int) -> List[int]:
         return sorted(range(1,n+1), key=str)
+
+
+
+class Solution:
+    def lexicalOrder(self, n: int) -> List[int]:
+        return sorted(list(range(1, n+1)), key=str)
+
+
+# 实际上还有一种更加具体的方式
+# 只不过更加的具体了
+# 最关键的就是比较函数的确定了
+
+from functools import cmp_to_key
+
+class Solution:
+    def lexicalOrder(self, n: int) -> List[int]:
+
+        def compare(a, b):
+            c, d = str(a), str(b)
+            if c < d:
+                return -1
+            if c == d:
+                return 0
+            return 1
+
+
+        return sorted(list(range(1, n+1)), key=cmp_to_key(compare))
+

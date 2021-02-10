@@ -52,6 +52,67 @@ class Solution:
         return dp[m][n]
 
 
+
+
+# Slow but Work
+from functools import lru_cache
+
+
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+
+        @lru_cache
+        def f(s, t):
+            if not s:
+                return True
+            if not t:
+                return not s
+            if s[0] == t[0]:
+                return f(s[1:], t[1:])
+            return f(s, t[1:])
+
+
+        return f(s, t)
+
+
+
+
+# 标准的DP做法
+# 应该还有可以优化的空间
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        m, n = len(s), len(t)
+        dp = [[False] * (n + 1) for _ in range(m+1)]
+        for i in range(n+1):
+            dp[m][i] = True
+        for i in range(m-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if s[i] == t[j]:
+                    dp[i][j] = dp[i+1][j+1]
+                else:
+                    dp[i][j] = dp[i][j+1]
+        return dp[0][0]
+
+
+
+
+
+# 这才是最好的解法 简单而且高效 而且切题
+# 其他的方法都是不好的
+# 双指针的方法 two pointer
+
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        m, n = len(s), len(t)
+        i, j = 0, 0
+        while i < m and j < n:
+            if s[i] == t[j]:
+                i += 1
+            j += 1
+
+        return i == m
+
+
 if __name__ == '__main__':
     s = "axc"
     t = "ahbgdc"
@@ -64,5 +125,7 @@ if __name__ == '__main__':
 
     print(s, t)
     print(Solution().isSubsequence(s, t))
+
+
 
 

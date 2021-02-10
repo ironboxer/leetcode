@@ -108,6 +108,58 @@ class Solution:
             nums[left + p] = buf[p]
 
 
+
+def merge_sort(nums, low, high, counts):
+    if low >= high:
+        return
+
+    mid = (low + high) // 2
+    merge_sort(nums, low, mid, counts)
+    merge_sort(nums, mid+1, high, counts)
+
+    # merge
+    C = [0] * (high - low + 1)
+    i, j, k = low, mid+1, 0
+    while i <= mid and j <= high:
+        if nums[i][1] <= nums[j][1]:
+            # 这里之所以没有想到用这种方式
+            # 就是因为没有搞清楚这里的数据结构是如何设计的
+            # 搞明白了数据结构 后面的就好理解了
+            # 归并排序使得左侧的元素L与右侧的元素R可以一一比较
+            # 如果没有比较到 说明当前的元素E是最小的 右侧不可能有比他还小的元素了
+            counts[nums[i][0]] += j - mid - 1
+            C[k] = nums[i]
+            i += 1
+        else:
+            C[k] = nums[j]
+            j += 1
+        k += 1
+
+    while i <= mid:
+        counts[nums[i][0]] += j - mid - 1
+        C[k] = nums[i]
+        i += 1
+        k += 1
+
+    while j <= high:
+        C[k] = nums[j]
+        j += 1
+        k += 1
+
+    for i, e in enumerate(C):
+        nums[low+i] = e
+
+
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        counts = [0] * len(nums)
+        # 这一步非常重要 把value value index 联系在一起
+        # 在更新的时候 还是可以还原到原数组的位置
+        nums = [[i, e] for i, e in enumerate(nums)]
+        merge_sort(nums, 0, len(nums) - 1, counts)
+        return counts
+
+
 if __name__ == '__main__':
     import random
     nums = random.sample(range(10), 10)

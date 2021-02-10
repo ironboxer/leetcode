@@ -34,20 +34,62 @@ class Solution:
 
     def __init__(self, head: ListNode):
         self.head = head
-        self.rand = random.Random()
 
     def getRandom(self) -> int:
         res = 0
         cnt = 1
-        cur = head
+        cur = self.head
         while cur is not None:
-            if self.rand.randrange(cnt) == 0:
-                cnt += 1
+            cnt += 1
+            if random.randrange(cnt) == 0:
                 res = cur.val
 
             cur = cur.next
 
         return res
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(head)
+# param_1 = obj.getRandom()
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+import random
+
+class Solution:
+
+    def __init__(self, head: ListNode):
+        """
+        @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node.
+        """
+        self.head = head
+
+    def getRandom(self) -> int:
+        """
+        Returns a random node's value.
+        """
+        res = 0
+        cnt = 0
+        cur = self.head
+        # 因为需要遍历全部的元素 所以时间复杂度为O(n)
+        # 所以本质上是用时间换空间的解法
+        while cur is not None:
+            cnt += 1
+            # 这里实际上像是一种采样方式
+            # 随机的范围随着遍历元素的增多而变大
+            if random.randrange(cnt) == 0:
+                res = cur.val
+            cur = cur.next
+
+        return res
+
 
 
 # Your Solution object will be instantiated and called as such:

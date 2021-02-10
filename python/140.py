@@ -146,6 +146,31 @@ class Solution:
         return [' '.join(item) for item in f(s)]
 
 
+from functools import lru_cache
+
+
+# 写的次数越多 思路越一致
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+
+        @lru_cache
+        def f(s):
+            if not s:
+                return []
+            res = []
+            for word in wordDict:
+                if s == word:
+                    res.append([word])
+                elif s.startswith(word):
+                    buf = f(s[len(word):])
+                    res += [[word] + items for items in buf]
+
+            return res
+
+        return [' '.join(items) for items in f(s)]
+
+
 
 if __name__ == '__main__':
     s = "catsanddog"

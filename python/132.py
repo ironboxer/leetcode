@@ -19,9 +19,7 @@ https://leetcode-cn.com/problems/palindrome-partitioning-ii/v
 from functools import lru_cache
 
 
-@lru_cache
-def check(s):
-    l, r = 0, len(s) - 1
+def check(s, l, r):
     while l < r:
         if s[l] != s[r]:
             return False
@@ -29,20 +27,34 @@ def check(s):
     return True
 
 
+# Good but TLE
+
 class Solution:
     def minCut(self, s: str) -> int:
+        n = len(s)
+        if n < 2:
+            return 0
+        dp = [i for i in range(n)]
+        for i in range(1, n):
+            if check(s, 0, i):
+                dp[i] = 0
+            else:
+                dp[i] = min(dp[j]+1 for j in range(i) if check(s, j+1, i))
+        return dp[-1]
 
-        @lru_cache
-        def f(s):
-            if check(s):
-                return 0
-            res = len(s) - 1
-            for i in range(1, len(s)):
-                l, r = f(s[:i]), f(s[i:])
-                res = min(res, l + r + 1)
-            return res
 
-        return f(s)
+class Solution:
+    def minCut(self, s: str) -> int:
+        n = len(s)
+        if n < 2:
+            return 0
+        dp = [i for i in range(n)]
+        for i in range(1, n):
+            if s[:i+1] == s[:i+1][::-1]:
+                dp[i] = 0
+            else:
+                dp[i] = min(dp[j]+1 for j in range(i) if s[j+1:i+1] == s[j+1:i+1][::-1])
+        return dp[-1]
 
 
 if __name__ == '__main__':
@@ -54,6 +66,8 @@ if __name__ == '__main__':
         ("abbab", 1),
         ("eegiicgaeadbcfacfhifdgj", 18),
         ("eegiicgaeadbcfacfhifdbiehbgejcaeggcgbahfcajfhjjdgj", 42),
+        ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+         1),
     ]
 
     for s, e in cases:

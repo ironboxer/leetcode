@@ -26,6 +26,18 @@ class Solution:
             s -= e
         return s
 
+# XOR
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        # 根据题意
+        missing = len(nums)
+        for i, e in enumerate(nums):
+            # 异或满足交换律
+            # 交换意味着延时
+            missing = missing ^ (i ^ e)
+        return missing
+
+
 if __name__ == '__main__':
     print(Solution().missingNumber([3,0,1]))
     print(Solution().missingNumber([9,6,4,2,3,5,7,0,1]))

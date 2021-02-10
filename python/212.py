@@ -5,11 +5,11 @@ Given a 2D board and a list of words from the dictionary, find all words in the 
 
 Each word must be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
 
- 
+
 
 Example:
 
-Input: 
+Input:
 board = [
   ['o','a','a','n'],
   ['e','t','a','e'],
@@ -19,7 +19,7 @@ board = [
 words = ["oath","pea","eat","rain"]
 
 Output: ["eat","oath"]
- 
+
 
 Note:
 
@@ -237,8 +237,8 @@ class Solution:
                 f(i, j, tire.root, [])
 
         return res
-    
-    
+
+
 # a clean version
 class Node:
     def __init__(self, val, children = None):
@@ -246,7 +246,7 @@ class Node:
         self.end = False
         self.children = children if children is not None else {}
 
-        
+
 def add(node, word):
     for w in word:
         sub_node = node.children.get(w)
@@ -285,13 +285,90 @@ class Solution:
             f(i, j-1, path, sub_node)
             path.pop()
             board[i][j] = x
-            
+
         for i in range(m):
             for j in range(n):
                 f(i, j, [], node)
 
         return res
 
+
+class TrieNode:
+    def __init__(self, val, end=False, children=None):
+        self.val = val
+        self.end = end
+        self.children = children or {}
+
+
+
+class Trie:
+    def __init__(self, words):
+        self.root = TrieNode('#')
+        for word in words:
+            self.insert(word)
+
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            sub_node = node.children.get(w)
+            if sub_node is None:
+                sub_node = TrieNode(w)
+                node.children[w] = sub_node
+            node = sub_node
+        node.end = True
+
+    def find(self, word):
+        node = self.root
+        for w in word:
+            sub_node = node.children.get(w)
+            if sub_node is None:
+                return False
+            node = sub_node
+        return node.end
+
+    def prefix(self, word):
+        node = self.root
+        for w in word:
+            sub_node = node.children.get(w)
+            if sub_node is None:
+                return False
+            node = sub_node
+        return True
+
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        rows, cols = len(board), len(board[0])
+        trie = Trie(words)
+        res = []
+
+        def f(i, j, root, path):
+            if root.end:
+                res.append(path)
+                root.end = False
+                # NOTE: 这里不应该return的
+
+            if i < 0 or j < 0 or i >= rows or j >= cols:
+                return
+
+            val = board[i][j]
+            sub_node = root.children.get(val)
+            if sub_node:
+                board[i][j] = '#'
+                f(i+1, j, sub_node, path + val)
+                f(i-1, j, sub_node, path + val)
+                f(i, j+1, sub_node, path + val)
+                f(i, j-1, sub_node, path + val)
+                board[i][j] = val
+
+        for i in range(rows):
+            for j in range(cols):
+                f(i, j, trie.root, '')
+
+        return res
+
+
+#所谓的字典树 就是为了减小搜索时候的空间和重复的劳动
 
 
 if __name__ == '__main__':

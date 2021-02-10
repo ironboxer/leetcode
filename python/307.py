@@ -4,7 +4,6 @@ https://leetcode.com/problems/range-sum-query-mutable/
 Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.
 
 The update(i, val) function modifies nums by updating the element at index i to val.
-
 Example:
 
 Given nums = [1, 3, 5]
@@ -22,6 +21,16 @@ You may assume the number of calls to update and sumRange function is distribute
 
 http://codeforces.com/blog/entry/18051
 
+---
+n = 10
+nums = [1,2,3,4,5,6,7,8,9,10]
+prefix = [0,1,3,6,10,15,21,28,36,45,55]
+
+当更新nums[i]的时候, prefix[i] -> prefix[n]之间的元素都需要更新, 显然时间复杂度为O(n)
+segment tree 的好处就是 可以将时间复杂度减小到O(log(n))
+
+segment tree 的prefix数组中存储的并不是 prefix[j] = sum(num[1] -> nums[j])
+而是一个二进制的路径 这个路径的最大长度不大于n的二进制的位数
 """
 
 

@@ -65,6 +65,21 @@ class Solution:
 # 为什么会过, 你没有把全部的细节都想清楚了
 
 
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] > nums[r]:
+                l = m + 1
+            elif nums[m] < nums[l]:
+                r = m
+            else:
+                r -= 1
+
+        return nums[l]
+
+
 if __name__ == '__main__':
     print(Solution().findMin([1, 3, 5]))
     print(Solution().findMin([2, 2, 2, 0, 1]))

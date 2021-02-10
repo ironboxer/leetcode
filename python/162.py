@@ -76,6 +76,19 @@ class Solution:
 # https://leetcode-cn.com/problems/find-peak-element/solution/xun-zhao-feng-zhi-by-leetcode/
 
 
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] < nums[m+1]:
+                l = m + 1
+            else:
+                r = m
+        return l
+
+
+
 if __name__ == '__main__':
     print(Solution().findPeakElement([1, 2, 3, 1]))
     print(Solution().findPeakElement([1, 2, 1, 3, 5, 6, 4]))

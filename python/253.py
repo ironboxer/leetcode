@@ -34,6 +34,46 @@ class Solution:
         return room
 
 
+import heapq
+
+# 整理后的思路是什么 为什么没有结论呢?
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervalSort = sorted(intervals, key=lambda item: item[0])
+        h = []
+        h.append(intervalSort[0][1])
+        heapq.heapify(h)
+        for i in range(1, len(intervalSort)):
+            start, end = intervalSort[i]
+            if start >= h[0]:
+                heapq.heappushpop(h, end)
+            else:
+                heapq.heappush(h, end)
+        return len(h)
+
+
+from heapq import heappush, heappop, heappushpop
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # sort by start time
+        intervals.sort(key=lambda x: x[0])
+        h = []
+        for start, end in intervals:
+            if not h:
+                h.append(end)
+            # start time >= most end time
+            elif start >= h[0]:
+                # update most end time
+                heappushpop(h, end)
+            else:
+                # new start time < old end time -> need new rooms
+                heappush(h, end)
+
+        return len(h)
+
+
 if __name__ == '__main__':
     intervals = [[0, 30],[5, 10],[15, 20]]
     print(Solution().minMeetingRooms(intervals))

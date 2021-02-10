@@ -216,6 +216,55 @@ class Solution:
         return f(root)
 
 
+# Solution 1 Slow but Work and Easy
+
+
+from functools import lru_cache
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+
+        @lru_cache
+        def f(root):
+            if root is None:
+                return 0
+            retval = root.val
+            if root.left:
+                retval += f(root.left.left) + f(root.left.right)
+            if root.right:
+                retval += f(root.right.left) + f(root.right.right)
+
+            return max(retval, f(root.left) + f(root.right))
+
+        return f(root)
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+
+        # f return two values
+        # first is max value with root.val
+        # last is max value without root.val
+        def f(root):
+            if root is None:
+                return 0, 0
+            l, r = f(root.left), f(root.right)
+            # 这里的两个返回值分别表示 root.val + sub sub tree max val
+            # max subtree val
+            # 所以第二个应该是 max(l) + max(r)
+            # 表示需要将子树的值考虑进去 而 第一个因为有root.val参与 所以子树的值不能考虑进去
+            return root.val + l[1] + r[1], max(l) + max(r)
+
+        return max(f(root))
+
 
 
 if __name__ == '__main__':
