@@ -53,3 +53,32 @@ class Solution:
         return res
 
 
+
+# SLOW BUT WORK
+from itertools import combinations
+
+class Solution:
+    def triangleNumber(self, nums: List[int]) -> int:
+        retval = 0
+        for a, b, c in combinations(nums, 3):
+            if a + b > c and a + c > b and b + c > a:
+                retval += 1
+        return retval
+
+
+class Solution:
+    def triangleNumber(self, nums: List[int]) -> int:
+        retval = 0
+        # i = len(nums) - 1,..., 2
+        for i in range(len(nums) - 1, 1, -1):
+            l, r = 0, i - 1
+            while l < r:
+                if nums[l] + nums[r] > nums[i]:
+                    retval += (r - 1) - l + 1
+                    r -= 1
+                else:
+                    l += 1
+
+        return retval
+
+

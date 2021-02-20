@@ -16,8 +16,6 @@ https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/
 
 输出:
 [5,6]
-通过次数65,618提交次数107,600
-在真实的面试中遇到过这道题？
 
 """
 

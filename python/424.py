@@ -35,6 +35,17 @@ from collections import Counter
 
 
 class Solution:
+    """
+    这道题的思路就是维护一个满足条件的窗口 window
+    每次添加一个元素 就检查当前窗口是否满足条件
+    如果不满足条件 就删除最早进入窗口的元素
+    条件: max(window.values()) + k < i - j + 1
+    如果该条件成立 说明当前窗口中的元素不重复的数量已经超过运行的范围k个
+    所以就需要从中删除不满足条件的元素
+    又因为最后的结果需要是一个连续的序列 所以只需要删除最左侧的元素即可
+
+    总结的过程就是收敛的过程 就是下结论 定型的过程 限制
+    """
     def characterReplacement(self, s: str, k: int) -> int:
         res = 0
         j = 0

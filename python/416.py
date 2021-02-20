@@ -21,6 +21,53 @@ Constraints:
 
 1 <= nums.length <= 200
 1 <= nums[i] <= 100
+
+---
+
+与494. 目标和 类似，属于01背包问题，可以把问题抽象为“给定一个数组和一个容量为x的背包，求有多少种方式让背包装满（有多少种子集能让子集之和等于背包容量）?"
+递推公式：dp[i] = dp[i] + dp[i-num] ，对于当前的第i个物品，有拿和不拿两种情况，dp[i]表示不拿的情况，dp[i-num]表示拿的情况，因此要将两者相加。
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int len = nums.length;
+        int sum = 0;
+        for (int n : nums) {
+            sum += n;
+        }
+        if(sum % 2 != 0) return false;//整数相加不可能得小数
+        int W = sum / 2;//相当于背包总承重
+        int [] dp = new int[W+1];
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int i = W; i >= num; i--) {
+                dp[i] += dp[i-num];
+            }
+        }
+        return dp[W] != 0;
+    }
+}
+
+01 背包就是每件物品只能拿一次非0即1
+完全背包就是每件物品可以拿n次
+
+附上01背包问题的模版：
+
+//01背包
+for (int i = 0; i < n; i++) {
+    for (int j = m; j >= V[i]; j--) {
+        f[j] = max(f[j], f[j-V[i]] + W[i]);
+    }
+}
+//完全背包
+for (int i = 0; i < n; i++) {
+    for (int j = V[i]; j <= m; j++) {
+        f[j] = max(f[j], f[j-V[i]] + W[i]);
+    }
+}
+f[j]代表当前背包容量为j的时候，可以获取的最大价值。完全背包是从左向右遍历，f[j-V[i]]取到的是拿第i个物品时的值，是新值，可以重复无限的拿，f[j]的值也会随之增加。
+V：商品的体积
+W：商品的价值
+
 """
 
 
@@ -130,6 +177,47 @@ class Solution:
             print(row)
         return dp[n][s]
 
+
+
+# SLOW BUT WORK
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s & 1:
+            return False
+        s >>= 1
+
+        def f(pos, cur):
+            if cur == s:
+                return True
+            if pos == len(nums):
+                return False
+            for i in range(pos, len(nums)):
+                if cur + nums[i] > s:
+                    continue
+                r = f(i + 1, cur + nums[i])
+                if r:
+                    return True
+
+            return False
+
+        return f(0, 0)
+
+
+# Using DP
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s & 1:
+            return 0
+        s >>= 1
+        dp = [0] * (s + 1)
+        for i in nums:
+            for j in range(s, i-1, -1):
+                dp[j] = max(dp[j], dp[j-i] + i)
+
+        return dp[s] == s
 
 
 if __name__ == '__main__':

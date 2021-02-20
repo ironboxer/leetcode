@@ -39,3 +39,23 @@ class Solution:
                     res = max(res, j - i + 1)
         return res
 
+
+
+# Slow But Work
+# 简单有效
+from collections import Counter
+from functools import lru_cache
+
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+
+        @lru_cache
+        def f(s):
+            c = Counter(s)
+            for key, val in c.items():
+                if val < k:
+                    return max(f(item) for item in s.split(key))
+            return len(s)
+
+        return f(s)
+

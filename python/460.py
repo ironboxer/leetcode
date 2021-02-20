@@ -102,3 +102,59 @@ class LFUCache:
         self.key_freq.pop(key)
 
 
+
+from collections import defaultdict, deque
+
+
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.min_freq = 0
+        self.cache = {}
+        self.freq2key = defaultdict(deque)
+
+    def get(self, key: int) -> int:
+        retval = self.cache.get(key)
+        if retval is None:
+            return -1
+        self.incr_freq(key)
+        return retval[0]
+
+    def put(self, key: int, value: int) -> None:
+        # bugfix FOR capacity == 0的情况
+        if self.capacity == 0:
+            return
+        if self.cache.get(key) is None:
+            if len(self.cache) >= self.capacity:
+                self.del_min_freq_key()
+            self.cache[key] = (value, 1)
+            self.freq2key[1].append(key)
+            self.min_freq = 1
+        else:
+            val, freq = self.cache[key]
+            self.cache[key] = (value, freq + 1)
+            self.freq2key[freq].remove(key)
+            self.freq2key[freq + 1].append(key)
+            if self.min_freq == freq and not self.freq2key[freq]:
+                self.min_freq += 1
+
+    def incr_freq(self, key):
+        val, freq = self.cache[key]
+        self.cache[key] = (val, freq + 1)
+        # remove O(n)
+        self.freq2key[freq].remove(key)
+        self.freq2key[freq + 1].append(key)
+        if self.min_freq == freq and not self.freq2key[freq]:
+            self.min_freq = freq + 1
+
+    def del_min_freq_key(self):
+        key = self.freq2key[self.min_freq].popleft()
+        self.cache.pop(key)
+
+
+# Your LFUCache object will be instantiated and called as such:
+# obj = LFUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+

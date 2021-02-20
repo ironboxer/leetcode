@@ -69,23 +69,6 @@ class Solution:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
         from collections import Counter
@@ -104,10 +87,43 @@ class Solution:
                     return True
                 cc = s2[lasti]
                 if cc in need:
-                    if window[cc] == need[cc]:
-                        matched -= 1
+                    if window[cc] == need[cc]: matched -= 1
                     window[cc] -= 1
                 lasti += 1
+        return False
+
+
+from collections import Counter
+
+
+class Solution:
+
+    """
+    基本的思路就是维护一个长度为len(s1)的窗口
+    然后每次加入一个新的元素的时候 检查当前窗口中的元素是否恰好满足条件
+    如果满足条件 返回True
+    否则 将窗口中最左侧的元素弹出 并且修改相关的计数
+    其实一点也不难
+    但就是做不出来
+    """
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        target = Counter(s1)
+        window = Counter()
+        lasti = 0
+        number = 0
+        for i, e in enumerate(s2):
+            window[e] += 1
+            if window[e] == target[e]:
+                number += 1
+            if i - lasti + 1 == len(s1):
+                if number == len(target):
+                    return True
+                c = s2[lasti]
+                if window[c] == target[c]:
+                    number -= 1
+                window[c] -= 1
+                lasti += 1
+
         return False
 
 

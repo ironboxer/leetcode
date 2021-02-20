@@ -66,8 +66,45 @@ class Solution:
         return False
 
 
+# SLOW BUT WORK
+# TLE
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        for i in range(0, len(nums)-2):
+            for j in range(i+1, len(nums)-1):
+                for k in range(j+1, len(nums)):
+                    if nums[i] < nums[k] < nums[j]:
+                        return True
+        return False
+
+
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        total = len(nums)
+        if total < 2:
+            return False
+        mi = [nums[0]]
+        for i in range(1, total):
+            mi.append(min(nums[i], mi[-1]))
+
+        stack = []
+        for i in range(total - 1, -1, -1):
+            if nums[i] > mi[i]:
+                while stack and mi[i] >= stack[-1]:
+                    stack.pop()
+                # 说明 stack[-1] > mi[i]
+                # 否则stack就被pop空了
+                if stack and stack[-1] < nums[i]:
+                    return True
+                # 加入当前的元素
+                stack.append(nums[i])
+
+        return False
+
+
 if __name__ == '__main__':
     nums = [2,3,1,2]
     print(nums)
     print(Solution().find132pattern(nums))
+
 

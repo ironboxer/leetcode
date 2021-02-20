@@ -50,6 +50,21 @@ class Solution:
 
 #TLE
 
+# 其实很简单 维护一个最小的滑动窗口 如果有小于当前栈顶元素的新的元素
+# 就将栈顶的元素pop出来
+# 最终得到到序列就是移除k个元素之后最小的序列了
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+
+        stack = []
+        for c in num:
+            while stack and k > 0 and c < stack[-1]:
+                stack.pop()
+                k -= 1
+            stack.append(c)
+        if k > 0:
+            stack = stack[:-k]
+        return ''.join(stack).lstrip('0') or '0'
 
 
 if __name__ == '__main__':

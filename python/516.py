@@ -73,7 +73,6 @@ class Solution:
         return f(s)
 
 
-from functools import lru_cache
 
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
@@ -116,3 +115,46 @@ f[i][i] = 1 单个字符的最长回文序列是 1
 f[0][n - 1]
 
 """
+
+
+
+from functools import lru_cache
+
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+
+        @lru_cache
+        def f(s):
+            length = len(s)
+            if length < 2:
+                return length
+            if s[0] == s[-1]:
+                return f(s[1:-1]) + 2
+            return max(f(s[1:]), f(s[:-1]))
+
+        return f(s)
+
+
+
+class Solution:
+    """
+    多磨简单的一道题 就是做不出来
+    """
+    def longestPalindromeSubseq(self, s: str) -> int:
+        length = len(s)
+        dp = [[0] * (length) for _ in range(length)]
+        for i in range(length-1, -1, -1):
+            dp[i][i] = 1
+            for j in range(i+1, length):
+                if s[i] == s[j]:
+                    dp[i][j] = dp[i+1][j-1] + 2
+                else:
+                    dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+
+        return dp[0][-1]
+
+
+if __name__ == '__main__':
+    s = "euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"
+    print(Solution().longestPalindromeSubseq(s))
+

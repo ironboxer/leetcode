@@ -68,6 +68,12 @@ https://leetcode-cn.com/problems/maximum-width-of-binary-tree/
 from collections import deque
 
 class Solution:
+    """
+    注意 这棵树不是满二叉树 更不是完全二叉树
+    树中有很多节点都是空的
+    所以在计算的时候 必须要保证是同一层的节点求最大宽度
+    所以需要保留层数的信息 然后计算同一层的宽度
+    """
     def widthOfBinaryTree(self, root: TreeNode) -> int:
         queue = deque([(root, 0, 0)])
         res, max_depth, left = 0, 0, 0

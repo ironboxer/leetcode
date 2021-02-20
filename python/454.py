@@ -32,3 +32,25 @@ class Solution:
         c = Counter(i + j for i in A for j in B)
         return sum(c[-i-j] for i in C for j in D)
 
+
+
+# SLOW BUT WORK
+# TLE
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        AB = [a + b for a in A for b in B]
+        CD = [c + d for c in C for d in D]
+        return [x + y for x in AB for y in CD].count(0)
+
+
+# Better Solution
+from collections import Counter
+
+
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        # 统计次数 对于重复的元素 可以大大减小搜索的范围
+        AB = Counter(a + b for a in A for b in B)
+        # 汇总
+        return sum(AB[-c-d] for c in C for d in D)
+

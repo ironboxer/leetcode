@@ -89,6 +89,7 @@ def tokenize(string):
     return tokens
 
 
+
 class Solution:
     """
     还是看不懂 只能尝试着来理解
@@ -111,8 +112,40 @@ class Solution:
                 n = token
             else:
                 res += token
-        
+
         return res
+
+
+# 其实很好理解 但你就是不用心啊
+class Solution:
+    def decodeString(self, s: str) -> str:
+        res = ''
+        stack = []
+        n = 0
+        for c in s:
+            if c == '[':
+                # [ 前面的字符串
+                stack.append(res)
+                # [ 前面的数字
+                stack.append(n)
+                # clear [ 前面的字符串
+                res = ''
+                # reset [ 前面的数字
+                n = 0
+            elif c == ']':
+                # [ 前面的数字
+                number = stack.pop()
+                # [ 前面的字符串
+                string = stack.pop()
+                # res 表示 [] 中间的字符串
+                res = string + res * number
+            elif c.isdigit():
+                n = n * 10 + int(c)
+            else:
+                res += c
+
+        return res
+
 
 
 if __name__ == '__main__':

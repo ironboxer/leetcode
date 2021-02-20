@@ -51,6 +51,35 @@ class Solution:
         return res
 
 
+# SLOW BUT WORK
+# TLE
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        res = 0
+        for i in range(len(nums)):
+            s = 0
+            for j in range(i, len(nums)):
+                s += nums[j]
+                if s == k:
+                    res += 1
+        return res
+
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        retval = 0
+        prev_sum, cur_sum = 0, 0
+        # 表示prev_sum == cur_sum
+        sum_table = {0: 1}
+        for n in nums:
+            cur_sum += n
+            prev_sum = cur_sum - k
+            retval += sum_table.get(prev_sum, 0)
+            sum_table[cur_sum] = sum_table.get(cur_sum, 0) + 1
+
+        return retval
+
+
 if __name__ == '__main__':
     nums = [1, 1, 1]
     k = 2

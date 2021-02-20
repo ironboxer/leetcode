@@ -49,6 +49,25 @@ class Solution:
         return max(A, B)
 
 
+from functools import lru_cache
+
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        @lru_cache
+        def play(low, high):
+            if low > high:
+                return 0
+            # solution A
+            A = nums[low] - play(low+1, high)
+            # solution B
+            B = nums[high] - play(low, high - 1)
+            # choice best one
+            return max(A, B)
+
+        # compare with zero
+        return play(0, len(nums) - 1) >= 0
+
+
 if __name__ == '__main__':
     nums = [1, 5, 233, 7]
     print(Solution().PredictTheWinner(nums))

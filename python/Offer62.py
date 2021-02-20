@@ -32,6 +32,17 @@ class Solution:
         return res
 
 
+class Solution:
+    def lastRemaining(self, n: int, m: int) -> int:
+        retval = 0
+        nums = list(range(n))
+        while n > 1:
+            retval = (retval + m - 1) % n
+            nums.pop(retval)
+            n -= 1
+        return nums[0]
+
+
 if __name__ == '__main__':
     n = 5
     m = 2

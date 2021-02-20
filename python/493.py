@@ -42,9 +42,12 @@ def merge_sort(nums, left, right):
 
     buf = [0] * (right - left + 1)
     i, j, k = left, mid + 1, 0
+    # 这里是最重要的合并结果的地方
     while i <= mid:
         while j <= right and nums[i] > nums[j] * 2:
             j += 1
+        # 对于左侧的每一个元素i都需要计算一次
+        # 这里 j - mid - 1 表示 j 离开 mid 的间距 中间的元素的数量
         retval += j - mid - 1
         i += 1
 

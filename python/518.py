@@ -112,12 +112,41 @@ class Solution:
             for j in range(1, amount+1):
                 if j >= coins[i]:
                     # 这里i+1的含义是可以重复选择元素 完全背包
-                    # 如果改为i就是不能重复选择元素 普通背包
+                    # 如果改为i就是不能重复选择元素 普通背包 01背包
                     dp[i+1][j] = dp[i+1][j - coins[i]] + dp[i][j]
                 else:
                     dp[i+1][j] = dp[i][j]
 
         return dp[n][amount]
+
+
+
+# TLE
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        coins.sort()
+
+        res = []
+
+        def f(cur, path):
+            if cur == 0:
+                res.append(path[:])
+                return
+
+            for c in coins:
+                if c > cur:
+                    break
+                if path and c > path[-1]:
+                    continue
+                path.append(c)
+                f(cur - c, path)
+                path.pop()
+
+        f(amount, [])
+
+        return len(res)
+
 
 
 class Solution:
@@ -130,6 +159,59 @@ class Solution:
                     # 完全背包
                     dp[j] += dp[j - coins[i]]
         return dp[amount]
+
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+
+        total = len(coins)
+        dp = [[0] * (amount + 1) for _ in range(total + 1)]
+        for i in range(total+1):
+            dp[i][0] = 1
+        for i in range(total):
+            for j in range(1, amount+1):
+                if j >= coins[i]:
+                    # 这里 何时为 i 何时为i+1
+                    # 这个问题的本质是完全背包问题 每个硬币可以使用多次
+                    # 所以状态不需要从 dp[i][j-coins[i]]转移到dp[i+1][j]
+                    # 而是从dp[i+1][j-coins[i]] 转移到dp[i+1][j]
+                    # 这是非常重要的一点
+                    dp[i+1][j] = dp[i+1][j-coins[i]] + dp[i][j]
+                else:
+                    dp[i+1][j] = dp[i][j]
+
+        return dp[-1][-1]
+
+
+
+class Solution:
+    """
+    问题 什么是状态压缩 什么情况下可以使用状态压缩
+    """
+    def change(self, amount: int, coins: List[int]) -> int:
+
+        total = len(coins)
+        dp = [1] + [0] * amount
+        for i in range(total):
+            for j in range(1, amount+1):
+                if j >= coins[i]:
+                    dp[j] += dp[j-coins[i]]
+
+        return dp[-1]
+
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+
+        total = len(coins)
+        dp = [1] + [0] * amount
+        for coin in coins:
+            for j in range(1, amount+1):
+                if j >= coin:
+                    dp[j] += dp[j-coin]
+
+        return dp[amount]
+
 
 
 if __name__ == '__main__':

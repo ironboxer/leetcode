@@ -47,6 +47,23 @@ class Solution:
         return res
 
 
+# SLOW BUT WORK
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        retval = 0
+        m, n = len(A), len(B)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(m):
+            for j in range(n):
+                if A[i] == B[j]:
+                    dp[i+1][j+1] = dp[i][j] + 1
+
+                retval = max(retval, dp[i+1][j+1])
+
+        return retval
+
+
+
 if __name__ == '__main__':
     A = [0,1,1,1,1]
     B = [1,0,1,0,1]

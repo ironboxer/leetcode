@@ -72,6 +72,34 @@ class Solution:
         return res
 
 
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        retval = 0
+        total = len(s)
+        # dp用来维持状态 retval用来记录结果
+        dp = [[False] * total for _ in range(total)]
+        # right border
+        for r in range(total):
+            # left border
+            for l in range(r+1):
+                # left == right only one element itself
+                if l == r:
+                    retval += 1
+                    dp[l][r] = True
+                # l r 中间间隔一个元素 同时s[l] == s[r] 这里无法使用dp[i][j]之间的公式来得出
+                # 这就是一种基本的情况 不需要状态转移方程得到
+                elif l + 1 == r and s[l] == s[r]:
+                    retval += 1
+                    dp[l][r] = True
+                # 需要使用状态转移方程的情况
+                elif dp[l+1][r-1] and s[l] == s[r]:
+                    retval += 1
+                    dp[l][r] = True
+
+        return retval
+
+
+
 if __name__ == '__main__':
     s = "abc"
     print(s)
