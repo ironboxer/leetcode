@@ -32,3 +32,37 @@ class Solution:
             nums.append(min(nums[a] * 2, nums[b] * 3, nums[c] * 5))
 
         return nums[-1]
+
+
+"""
+func min(a, b int) int {
+    if a <= b {
+        return a
+    }
+    return b
+}
+
+func min3(a, b, c int) int {
+    return min(min(a, b), c)
+}
+
+
+func nthUglyNumber(n int) int {
+    var a, b, c int
+    var res = make([]int, n)
+    res[0] = 1
+    for i := 1; i < n; i++ {
+        for res[a] * 2 <= res[i-1] {
+            a++
+        }
+        for res[b] * 3 <= res[i-1] {
+            b++
+        }
+        for res[c] * 5 <= res[i-1] {
+            c++
+        }
+        res[i] = min3(res[a] * 2, res[b] * 3, res[c] * 5)
+    }
+    return res[n-1]
+}
+"""

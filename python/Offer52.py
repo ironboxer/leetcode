@@ -60,6 +60,8 @@ https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-di
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
         a, b = headA, headB
+        # 时间复杂度O(m + n)
+        # 最多遍历m + n个节点就可以了
         while a != b:
             a = a.next if a else headB
             b = b.next if b else headA

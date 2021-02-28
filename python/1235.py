@@ -74,6 +74,52 @@ class Solution:
         return opt_list[-1]
 
 
+class Solution:
+    def jobScheduling(self, s: List[int], e: List[int], p: List[int]) -> int:
+        n=len(s)
+        arr=[]
+        for i in range(n):
+            arr.append([s[i],e[i],p[i]])
+
+        arr.sort(key=lambda x:x[1])
+        arr=[[0,0,0]]+arr
+        dp=[0]*(n+1)
+        for i in range(1,n+1):
+            l,r=0,i-1
+            while l<r:
+                mid=l+(r-l+1)//2
+                if arr[mid][1]<=arr[i][0]:
+                    l=mid
+                else:
+                    r=mid-1
+            # dp[i]表示第i个以arr[i]结尾的子序列的最大值
+            dp[i]=max(dp[i-1],dp[r]+arr[i][2])
+
+        return dp[-1]
+
+
+# 二分查找 + 动态规划 求最优解吗?
+# 这道题做了还是不会啊 明显感觉到 有很多细节没有搞明白啊
+# 这道题本质上就是一个动态规划
+# 其中的状态转移方程 为 f(i) = max(f(i-1), f(j) + arr[i][2]) if arr[j][1] <= arr[i][0]
+# 0 <= j < i < len(arr) 其中j是第一个小于i且满足 arr[j][1] <= arr[i][0]的位置
+# 至于说 这里使用二分查找 还是 普通的线性查找 都是关于查找的具体算法
+# 但是 本质上还是动态规划类 题目
+class Solution:
+    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+        total = len(startTime)
+        arr = [[0, 0, 0]] + sorted(list(zip(startTime, endTime, profit)), key=lambda x: x[1])
+        dp = [0] * (total + 1)
+        for i in range(1, total + 1):
+            j = i - 1
+            while j > 0 and arr[j][1] > arr[i][0]:
+                j -= 1
+            dp[i] = max(dp[i-1], dp[j] + arr[i][2])
+
+        return dp[-1]
+
+
+
 if __name__ == '__main__':
 
     startTime = [1,1,1]

@@ -37,3 +37,17 @@ class Solution:
 
         return True
 
+
+class Solution:
+    def isUnique(self, astr: str) -> bool:
+        # 如果mask是32位的整数
+        # 那么最多有26位被占用 够用了
+        mask = 0
+        for c in astr:
+            i = ord(c) - 67
+            if mask & (1 << i):
+                return False
+            mask |= 1 << i
+
+        return True
+

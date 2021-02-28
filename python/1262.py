@@ -28,6 +28,18 @@ https://leetcode-cn.com/problems/greatest-sum-divisible-by-three/
 
 1 <= nums.length <= 4 * 10^4
 1 <= nums[i] <= 10^4
+
+---
+
+先求出数组的和，然后求出和模上3的数字(minus)，模一共有三种情况：
+1.总和模为0直接返回，即所有数相加可以被3整除。
+2.总和模为1，然后找到一个最小的模为1的数和两个最小模为2的数的和，和减去其中的最小值，如果和最后小于0返回0否则返回和的值。
+3.总和模为2，然后找到一个最小的模为2的数和两个最小模为1的数的和，和减去其中的最小值，如果和最后小于0返回0否则返回和的值。
+
+作者：xun-luo
+链接：https://leetcode-cn.com/problems/greatest-sum-divisible-by-three/solution/xian-qiu-chu-shu-zu-he-zai-jian-qu-shu-z-me0i/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 """
 
 

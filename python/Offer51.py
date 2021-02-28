@@ -38,6 +38,16 @@ def merge_sort(nums, left, right):
         if nums[i] <= nums[j]:
             # NOTE: j 偏离 mid + 1 的位置表示 left part 中有大于nums[j]的元素存在
             # 才使得 j 逐渐偏离 (mid + 1)
+            # 这里只是记住了这里的答案 但是并不理解
+            # 为什么是这个样子的 原理是什么 你知道吗
+            # 你并没有理解这道题
+            # 只是记住了答题的模板 俗称 八股文
+            # 对于左半部分的每一个位置i 都需要统计对应的右半部分
+            # 是否存在对应的j满足 i < j and E[i] > E[j] (i<j 是天然成立的)
+            # E[i] > E[j] 则可以通过 j 偏移mid + 1的距离来判断
+            # 而不是通过else中E[i] > E[j] 来判断
+            # 这个判断只能够获知 当前的两个元素E[i] E[j]之间的关系
+            # 而无法得知 [left, i] [mid+1, j] 这个区间内的整体关系
             counter += j - (mid + 1)
             tmp[k] = nums[i]
             i += 1

@@ -33,6 +33,26 @@ class Solution:
         return numbers[l]
 
 
+# SLOW BUT WORK
+class Solution:
+    def minArray(self, numbers: List[int]) -> int:
+        # 核心还是根据二分查找的基本原则
+        # 在符合递增的区间中 尽量的做排除
+        # 能够进行二分查找的 就用二分查找
+        # 无法使用二分查找的 只能够使用遍历的方式
+        l, r = 0, len(numbers) - 1
+        while l < r:
+            mid = (l + r) // 2
+            if numbers[mid] > numbers[r]:
+                l = mid + 1
+            elif numbers[mid] < numbers[l]:
+                r = mid
+            else:
+                r -= 1
+
+        return numbers[r]
+
+
 if __name__ == '__main__':
 
     nums = [2,2,2,0,1]
