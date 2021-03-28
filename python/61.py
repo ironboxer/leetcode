@@ -1,4 +1,4 @@
-"""
+G"""
 https://leetcode-cn.com/problems/rotate-list/
 
 61. 旋转链表
@@ -53,4 +53,43 @@ class Solution:
             cur = cur.next
         cur.next = head
         return nxt
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# 如此垃圾的代码
+class Solution:
+    @staticmethod
+    def get_len(head):
+        total = 0
+        while head:
+            head = head.next
+            total += 1
+        return total
+
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        if not head or k < 1:
+            return head
+        k = k % self.get_len(head)
+        if k == 0:
+            return head
+        slow, fast = head, head
+
+        while fast.next:
+            fast = fast.next
+            if k > 0:
+                k -= 1
+            else:
+                slow = slow.next
+
+            # print(slow.val if slow else '#', fast.val, k)
+
+        new_head = slow.next
+        slow.next = None
+        fast.next = head
+        return new_head
+
 

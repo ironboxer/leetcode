@@ -19,7 +19,16 @@ https://leetcode-cn.com/problems/3sum-closest/
 -10^3 <= nums[i] <= 10^3
 -10^4 <= target <= 10^4
 
+问题转化不理解啊
+你怎么衡量最接近这个问题呢?
+如何评价最接近这个问题呢?
+
+问题如何转化呢?
+
+因为是3个元素的查找问题
+所以需要先确定一个元素 然后再遍历另外两个元素 这就是基本的思路
 """
+
 
 from typing import List
 

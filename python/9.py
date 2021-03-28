@@ -33,3 +33,21 @@ class Solution:
             r = r * 10 + t % 10
             t //= 10
         return r == x
+
+
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        buf = []
+        while x:
+            buf.append(x % 10)
+            x //= 10
+        l, r = 0, len(buf) - 1
+        while l < r:
+            if buf[l] != buf[r]:
+                return False
+            l, r = l + 1, r - 1
+
+        return True
+

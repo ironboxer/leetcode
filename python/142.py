@@ -11,7 +11,7 @@ Follow up:
 
 Can you solve it using O(1) (i.e. constant) memory?
 
- 
+
 
 Example 1:
 
@@ -31,7 +31,7 @@ Example 3:
 Input: head = [1], pos = -1
 Output: no cycle
 Explanation: There is no cycle in the linked list.
- 
+
 
 Constraints:
 
@@ -67,3 +67,39 @@ class Solution:
             cur = cur.next
             slow = slow.next
         return cur
+
+
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        slow, fast = head, head
+        while fast:
+            fast = fast.next
+            if fast:
+                fast = fast.next
+                slow = slow.next
+            else:
+                return None
+
+            if slow is fast:
+                break
+
+        if fast is None:
+            return None
+
+        fast = head
+        while fast != slow:
+            fast = fast.next
+            slow = slow.next
+
+        return fast
+
+
+# 做一万遍都不会啊

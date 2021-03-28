@@ -34,7 +34,7 @@ Example 4:
 
 Input: "words and 987"
 Output: 0
-Explanation: The first non-whitespace character is 'w', which is not a numerical 
+Explanation: The first non-whitespace character is 'w', which is not a numerical
              digit or a +/- sign. Therefore no valid conversion could be performed.
 Example 5:
 
@@ -70,6 +70,34 @@ class Solution:
             return 2147483647
 
         return sign * res
+
+
+# 写的像屎一样
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        retval = 0
+        s = s.strip().split(' ')[0]
+        if not s:
+            return 0
+
+        sign = 1
+        if s[0] == '+':
+            s = s[1:]
+        elif s[0] == '-':
+            sign = -1
+            s = s[1:]
+        end = 0
+        while end < len(s) and s[end].isdigit():
+            end += 1
+        if end == 0:
+            return 0
+        x = int(s[:end])
+        max_val = 1 << 31
+        if sign == 1:
+            return x if x < max_val else max_val - 1
+        return -x if x <= max_val else -max_val
+
+
 
 
 if __name__ == "__main__":

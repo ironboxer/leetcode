@@ -47,5 +47,25 @@ class Solution:
         return sign * r
 
 
+class Solution:
+    """
+    简单 精巧
+    """
+    def reverse(self, x: int) -> int:
+        max_val = 1 << 31
+
+        sign = 1 if x >= 0 else -1
+        x = abs(x)
+        r = 0
+        while x:
+            r = r * 10 + x % 10
+            x //= 10
+        # print(r)
+        if sign == 1:
+            return r if r < max_val else 0
+        return -r if r <= max_val else 0
+
+
+
 if __name__ == "__main__":
     print(Solution().reverse(123))

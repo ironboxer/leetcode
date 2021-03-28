@@ -7,7 +7,7 @@ Suppose that nums is rotated at some pivot unknown to you beforehand (i.e., [0,1
 
 If target is found in the array return its index, otherwise, return -1.
 
- 
+
 
 Example 1:
 
@@ -21,7 +21,7 @@ Example 3:
 
 Input: nums = [1], target = 0
 Output: -1
- 
+
 
 Constraints:
 
@@ -64,6 +64,29 @@ class Solution:
                     right = mid - 1
                 else:
                     return -1
+        return -1
+
+
+
+# make it simple and stupid
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            mid = (l + r) // 2
+            val = nums[mid]
+            if val == target:
+                return mid
+            elif nums[l] <= target < val:
+                r = mid - 1
+            elif val < target <= nums[r]:
+                l += 1
+            else:
+                if nums[l] == target:
+                    return l
+                if nums[r] == target:
+                    return r
+                l, r = l + 1, r - 1
         return -1
 
 

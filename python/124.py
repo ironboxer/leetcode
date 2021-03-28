@@ -126,6 +126,40 @@ class Solution:
 # 最大路径和就是一个一笔画问题。
 
 
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+#
+# 这道题就是那种做一万遍也不会的题啊
+
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.max_val = -(1 << 31)
+
+        def f(root):
+            if root is None:
+                return 0
+
+            l, r, v = f(root.left), f(root.right), root.val
+            # 返回值是一个局部最优解 必须包含root节点的值
+            # retval表示局部最优解 一定包含 root节点的值
+            retval = max(l + v, r + v, v)
+            # max_val 表示全局最优解 需要考虑 l + v + r 这种情况
+            # 而retval作为l 或者 r的返回值, 其表示的应该是一个linger value
+            self.max_val = max(self.max_val, retval, l + r + v)
+            return retval
+
+        f(root)
+
+        return self.max_val
+
+
+
 if __name__ == '__main__':
     root = TreeNode(-3)
     print(Solution().maxPathSum(root))

@@ -60,6 +60,22 @@ class Solution:
         return ''.join(str(i) for i in dp).lstrip('0') or '0'
 
 
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        m, n = len(num1), len(num2)
+        buf = [0] * (m + n + 1)
+        for i, a in enumerate(num1[::-1]):
+            for j, b in enumerate(num2[::-1]):
+                buf[i + j] += int(a) * int(b)
+        # print(buf)
+        carry = 0
+        for i in range(m + n):
+            buf[i+1] += buf[i] // 10
+            buf[i] %= 10
+
+        return ''.join(map(str, buf[::-1])).lstrip('0') or '0'
+
+
 if __name__ == "__main__":
     num1 = "2"
     num2 = "3"

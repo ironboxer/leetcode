@@ -319,7 +319,13 @@ class Solution:
         return self.find(nums1, i, nums2, j + k // 2, k - k // 2)
 
 
+# 每写一遍 就能感受到这个算法的精妙之处
+# 其实很简单 之所以没有思路 或者是出错 从另一个角度看
+# 就是对本质的东西没看明白
+
+
 if __name__ == "__main__":
     print(Solution().findMedianSortedArrays([1, 3], [2]))
     print(Solution().findMedianSortedArrays([1, 2], [3, 4]))
+
 

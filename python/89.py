@@ -60,7 +60,13 @@ class Solution:
             res.append(i ^ (i >> 1))
         return res
 
+
 class Solution:
+    """
+    对于位运算 如果不是特别理解 那么就多模拟几遍
+    不追求立即就懂 而是要明白基本的运行原理
+    """
     def grayCode(self, n: int) -> List[int]:
         return [i ^ (i >> 1) for i in range(1 << n)]
+
 
