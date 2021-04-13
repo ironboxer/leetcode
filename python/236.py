@@ -69,3 +69,43 @@ class Solution:
 
         return g(root, p, q)
 
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from functools import lru_cache
+
+class Solution:
+    """
+    严格按照二叉树的定义来执行
+    """
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+
+
+        @lru_cache
+        def has(root, node):
+            if root is None:
+                return False
+            if root is node:
+                return True
+            return has(root.left, node) or has(root.right, node)
+
+        def f(root, p, q):
+            if has(p, q):
+                return p
+            if has(q, p):
+                return q
+            if has(root.left, p) and has(root.left, q):
+                return f(root.left, p, q)
+            if has(root.right, p) and has(root.right, q):
+                return f(root.right, p, q)
+            return root
+
+        return f(root, p, q)
+

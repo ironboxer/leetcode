@@ -64,3 +64,28 @@ class Solution:
                 break
         return root
 
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """
+        本质上就是二分查找每次排除一半的区间
+        这才是问题的本质 考察的重点
+        """
+        def f(root, p, q):
+            if p.val < root.val and q.val < root.val:
+                return f(root.left, p, q)
+            if p.val > root.val and q.val > root.val:
+                return f(root.right, p, q)
+
+            return root
+
+        return f(root, p, q)
+

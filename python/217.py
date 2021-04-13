@@ -25,6 +25,10 @@ from typing import List
 
 # why?
 # 你看懂了吗
+# 原理是什么呢？
+# 抄了一遍代码 但是什么都不清楚
+# 说明这就是智商税啊
+# 因为你根本不清楚这其中的原因是什么
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
         pos = 0
@@ -55,3 +59,4 @@ if __name__ == '__main__':
     print(Solution().containsDuplicate([1,2,3,4]))
     print(Solution().containsDuplicate([1,1,1,3,3,4,3,2,4,2]))
     print(Solution().containsDuplicate([-1200000005,-1200000005]))
+

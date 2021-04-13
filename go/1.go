@@ -36,6 +36,8 @@ Only one valid answer exists.
 
 package main
 
+import "fmt"
+
 func twoSum(nums []int, target int) []int {
     res := []int{-1, -1}
     dict := make(map[int]int)
@@ -52,6 +54,7 @@ func twoSum(nums []int, target int) []int {
 }
 
 // 字典的作用在于将时间复杂度从O(n^2)减小到O(n)
+// golang programming language
 
 
 func main() {
@@ -59,5 +62,6 @@ func main() {
     target := 13
     res := twoSum(nums, target)
     println(res[0], res[1])
+    fmt.Println(nums)
 }
 
