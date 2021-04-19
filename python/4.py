@@ -285,6 +285,7 @@ class Solution:
 
         return (buf[mid-1] + buf[mid]) / 2
 
+
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         m, n = len(nums1), len(nums2)
@@ -302,6 +303,12 @@ class Solution:
         return (self.find(nums1, 0, nums2, 0, total // 2) + self.find(nums1, 0, nums2, 0, total // 2 + 1)) / 2
 
     def find(self, nums1, i, nums2, j, k):
+        """
+        这个find的基本思路是啥？
+        """
+        # i, j 分别是两个数组的起点
+        # 可以折磨说 i j 左边的都是看不见的 或者是不存在的
+        # -1 是因为k从1开始
         if i >= len(nums1):
             return nums2[j + k - 1]
         if j >= len(nums2):
@@ -309,13 +316,19 @@ class Solution:
         if k == 1:
             return min(nums1[i], nums2[j])
 
+        # mid_i, mid_j是用来做什么的？
         mid_i, mid_j = 1 << 31, 1 << 31
+        # 比较两个数组的中位数或者是中间的数字
         if i + k // 2 - 1 < len(nums1):
+            # here is the point
             mid_i = nums1[i + k // 2 - 1]
         if j + k // 2 - 1 < len(nums2):
+            # here is the point
             mid_j = nums2[j + k // 2 - 1]
         if mid_i < mid_j:
+            # 跳过左侧的数组
             return self.find(nums1, i + k // 2, nums2, j, k - k // 2)
+        # 跳过右侧的数组
         return self.find(nums1, i, nums2, j + k // 2, k - k // 2)
 
 
@@ -328,4 +341,11 @@ if __name__ == "__main__":
     print(Solution().findMedianSortedArrays([1, 3], [2]))
     print(Solution().findMedianSortedArrays([1, 2], [3, 4]))
 
+
+
+# 这道题的基本思路是什么 你能说出来嘛？
+# 可以用图形化的表示嘛？
+
+# 整个代码的思路还是比较复杂的 有一定的细节之处
+# 否则也不会是Hard
 
