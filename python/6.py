@@ -30,11 +30,12 @@ E C   I H   N
 T     S     G
 """
 
+
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
         if numRows == 1:
             return s
-
+        # 这个算法的核心是什么？
         total = len(s)
         res = [[] for _ in range(numRows)]
         n = numRows * 2 - 2
@@ -44,3 +45,9 @@ class Solution:
         for row in res:
             retval += ''.join(row)
         return retval
+
+
+
+# 下次你还会嘛 每次都是这样啊
+# 你有认识到这个算法的巧妙之处吗？
+

@@ -196,6 +196,67 @@ class Solution:
         return dp[0][0]
 
 
+
+
+from functools import lru_cache
+
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+
+        """
+        递归与动态规划的算法到底差在哪里？
+        为什么递归的很容易写出，但是动态规划的却很难写出来？
+        """
+        @lru_cache
+        def f(s, p):
+            if len(p) == 0:
+                return len(s) == 0
+            if len(s) == 0:
+                return len(p) > 1 and p[1] == '*' and f(s, p[2:])
+            if len(p) > 1 and p[1] == '*':
+                if s[0] == p[0] or p[0] == '.':
+                    return f(s[1:], p[2:]) or f(s, p[2:]) or f(s[1:], p)
+                return f(s, p[2:])
+            if s[0] == p[0] or p[0] == '.':
+                return f(s[1:], p[1:])
+
+            return False
+
+        return f(s, p)
+
+
+# 总的思路还是很简单的
+# 细节很重要 这个也是考察的重点
+# 多写几遍 就把原理搞清楚了
+
+
+
+from functools import lru_cache
+
+class Solution:
+    """
+    这道题做过很详尽的总结 但是回头还是不会
+    说明对原理掌握不清楚 或者没有深入了解改题目
+    """
+    def isMatch(self, s: str, p: str) -> bool:
+
+        m, n = len(s), len(p)
+
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        dp[-1][-1] = True
+        for i in range(m, -1, -1):
+            for j in range(n-1, -1, -1):
+                if j + 1 < n and p[j+1] == '*':
+                    if i < m and (s[i] == p[j] or p[j] == '.'):
+                        dp[i][j] = dp[i+1][j] or dp[i+1][j+2] or dp[i][j+2]
+                    else:
+                        dp[i][j] = dp[i][j+2]
+                elif i < m and (s[i] == p[j] or p[j] == '.'):
+                    dp[i][j] = dp[i+1][j+1]
+
+        return dp[0][0]
+
+
 if __name__ == "__main__":
     cases = [
         ("", "", True),

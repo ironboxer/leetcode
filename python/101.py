@@ -46,3 +46,5 @@ class Solution:
         return f(root.left, root.right) if root else True
 
 # 没搞清楚为什么过了
+# 反正就是过了
+

@@ -135,6 +135,52 @@ class Solution:
         return self.nth(nums, 0, len(nums) - 1, 3, 0)
 
 
+
+
+class Solution:
+
+    @staticmethod
+    def twoSum(nums, low, high, target):
+        res = []
+        while low < high:
+            val = nums[low] + nums[high]
+            if val < target:
+                low += 1
+            elif val > target:
+                high -= 1
+            else:
+                res.append([nums[low], nums[high]])
+                low, high = low + 1, high - 1
+                while low < high and nums[low] == nums[low-1]:
+                    low += 1
+                while low < high and nums[high] == nums[high + 1]:
+                    high -= 1
+        return res
+
+
+    @classmethod
+    def nthSum(cls, nums, low, high, target, n):
+        if n == 2:
+            return cls.twoSum(nums, low, high, target)
+        res = []
+        for i in range(low, high):
+            val = nums[i]
+            if i > low and val == nums[i-1]:
+                continue
+            buf = cls.nthSum(nums, i+1, high, target - val, n - 1)
+            res += [[val] + items for items in buf]
+        return res
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        return self.nthSum(nums, 0, len(nums) - 1, 0, 3)
+
+
+# 整个思路非常清晰
+# 因为问题并不难理解 如果是动态规划 需要把整个问题空间和解空间都想明白了 
+# 心智负担非常的大
+
+
 if __name__ == "__main__":
     print(Solution().threeSum([-1, 0, 1, 2, -1, -4]))
     print(Solution().threeSum([3, 0, -2, -1, 1, 2]))
