@@ -43,7 +43,29 @@ class Solution:
 
 
 # 基本的思路就是这样, 这道题根本算不上动态规划, 其实就是简单的观察然后总结
-#
+# 但是你就是做不出来啊
+# 问题在于你只是在抄袭答案 问题本省并不清楚
+
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        total = len(s)
+        if total < 2:
+            return 0
+        # dp 表示已i结尾的字符串的最大长度
+        # 连这个问题都定义不清楚 怎么做？
+        dp = [0] * total
+        for i in range(1, total):
+            if s[i] == ')':
+                # ()()
+                if s[i-1] == '(':
+                    dp[i] = 2 + (dp[i-2] if i > 2 else 0)
+                else:
+                    # ()(())
+                    if dp[i-1] > 0 and i - 1 - dp[i-1] >= 0 and s[i - 1 - dp[i-1]] == '(':
+                        dp[i] = 2 + dp[i-1] + (dp[i - 2 - dp[i-1]] if i - 2 - dp[i-1] > 0 else 0)
+
+        return max(dp)
+
 
 if __name__ == "__main__":
     cases = [

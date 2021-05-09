@@ -22,6 +22,7 @@ Output: 49
 */
 
 package main
+import "fmt"
 
 
 func max(a, b int) int {
@@ -57,5 +58,7 @@ func maxArea(height []int) int {
 
 func main() {
     height := []int{1,8,6,2,5,4,8,3,7}
-    print(maxArea(height))
+    println(maxArea(height))
+    fmt.Println("hello")
 }
+

@@ -23,7 +23,7 @@ import "fmt"
 
 
 func generateParenthesis(n int) []string {
-    res := make([]string, 0)    
+    res := make([]string, 0)
     var f func (s string, left int, right int)
     f = func(s string, left int, right int) {
         if n * 2 == len(s) {
@@ -47,5 +47,5 @@ func generateParenthesis(n int) []string {
 func main() {
     for i := 1; i < 5; i++ {
         fmt.Println(i, generateParenthesis(i))
-    }    
+    }
 }
